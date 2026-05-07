@@ -12,8 +12,89 @@ namespace Lab9
         {
             InitializeComponent();
             new DatabaseManager();
+
+        }
+        public class WniosekItem
+        {
+            public int Id { get; set; }
+            public string DisplayText { get; set; } 
         }
 
+        public void RefreshList()
+        {
+            try
+            {
+                var items = new System.Collections.Generic.List<WniosekItem>();
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT Id, ImieNazwisko, NumerAlbumu FROM Wnioski ORDER BY Id DESC";
+                    using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            items.Add(new WniosekItem
+                            {
+                                Id = reader.GetInt32(0),
+                                DisplayText = $"{reader.GetString(1)} (Album: {reader.GetString(2)})"
+                            });
+                        }
+                    }
+                }
+                lstWnioski.ItemsSource = items;
+            }
+            catch (Exception ex) { txtStatus.Text = "Błąd listy: " + ex.Message; }
+        }
+
+        public void BtnRefresh_Click(object sender, RoutedEventArgs e) => RefreshList();
+
+        private void LstWnioski_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lstWnioski.SelectedItem is WniosekItem selected)
+            {
+                LoadWniosekById(selected.Id);
+            }
+        }
+
+        private void LoadWniosekById(int id)
+        {
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM Wnioski WHERE Id = @id";
+                    using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtDataWniosku.Text = reader.GetString(1);
+                                txtNumerAlbumu.Text = reader.GetString(2);
+                                txtImieNazwisko.Text = reader.GetString(3);
+                                txtSemestr.Text = reader.GetString(4);
+                                txtRok.Text = reader.GetString(5);
+                                txtKierunek.Text = reader.GetString(6);
+                                txtStopien.Text = reader.GetString(7);
+                                txtPrzedmiot.Text = reader.GetString(8);
+                                txtPunkty.Text = reader.GetString(9);
+                                txtProwadzacy.Text = reader.GetString(10);
+                                txtUzasadnienie.Text = reader.GetString(11);
+                                txtPodpisStudenta.Text = reader.GetString(12);
+                                txtDecyzja.Text = reader.GetString(13);
+                                txtSkladKomisji.Text = reader.GetString(14);
+                                txtDataDecyzji.Text = reader.GetString(15);
+                                txtStatus.Text = "Status: Wczytano wybrany wniosek!";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { txtStatus.Text = "Błąd: " + ex.Message; }
+        }
         public void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             try

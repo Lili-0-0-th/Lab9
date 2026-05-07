@@ -4,6 +4,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Lab9.MainWindow"
-        Title="Lab9">
-    Welcome to Avalonia!
+        Title="Wniosek o egzamin komisyjny" Width="600" Height="800">
+	<ScrollViewer>
+		<StackPanel Margin="30" Spacing="10">
+
+			<TextBlock Text="WNIOSEK O PRZEPROWADZENIE EGZAMINU KOMISYJNEGO"
+                       FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20" TextWrapping="Wrap"/>
+
+			<TextBlock Text="Data wniosku (Poznań, dnia):"/>
+			<TextBox x:Name="txtDataWniosku" Watermark="np. 07.05.2026"/>
+
+			<TextBlock Text="Numer albumu:"/>
+			<TextBox x:Name="txtNumerAlbumu" />
+
+			<TextBlock Text="Nazwisko i imię:"/>
+			<TextBox x:Name="txtImieNazwisko" />
+
+			<Grid ColumnDefinitions="*,*" Margin="0,5">
+				<StackPanel Grid.Column="0" Margin="0,0,5,0">
+					<TextBlock Text="Semestr:"/>
+					<TextBox x:Name="txtSemestr" />
+				</StackPanel>
+				<StackPanel Grid.Column="1" Margin="5,0,0,0">
+					<TextBlock Text="Rok:"/>
+					<TextBox x:Name="txtRok" />
+				</StackPanel>
+			</Grid>
+
+			<TextBlock Text="Kierunek studiów:"/>
+			<TextBox x:Name="txtKierunek" />
+
+			<TextBlock Text="Stopień studiów:"/>
+			<TextBox x:Name="txtStopien" />
+
+			<TextBlock Text="Przedmiot:"/>
+			<TextBox x:Name="txtPrzedmiot" />
+
+			<TextBlock Text="Punkty ECTS:"/>
+			<TextBox x:Name="txtPunkty" />
+
+			<TextBlock Text="Prowadzony przez:"/>
+			<TextBox x:Name="txtProwadzacy" />
+
+			<TextBlock Text="Uzasadnienie wniosku:"/>
+			<TextBox x:Name="txtUzasadnienie" Height="80" AcceptsReturn="True" TextWrapping="Wrap"/>
+
+			<TextBlock Text="Data i podpis studenta:"/>
+			<TextBox x:Name="txtPodpisStudenta" Watermark="Wpisz imię i nazwisko jako podpis"/>
+
+			<TextBlock Text="DECYZJA" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+
+			<TextBlock Text="Wyrażam / nie wyrażam zgodę:"/>
+			<TextBox x:Name="txtDecyzja" />
+
+			<TextBlock Text="Skład komisji:"/>
+			<TextBox x:Name="txtSkladKomisji" Height="60" AcceptsReturn="True" TextWrapping="Wrap"/>
+
+			<TextBlock Text="Data decyzji (Poznań, dnia):"/>
+			<TextBox x:Name="txtDataDecyzji" />
+
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" Margin="0,20,0,10">
+				<Button Content="Zapisz do bazy" Click="BtnSave_Click" Background="DarkGreen" Foreground="White" Width="150" HorizontalContentAlignment="Center"/>
+				<Button Content="Odczytaj z bazy" Click="BtnLoad_Click" Background="DarkBlue" Foreground="White" Width="150" HorizontalContentAlignment="Center"/>
+			</StackPanel>
+
+			<TextBlock x:Name="txtStatus" Text="Status: Gotowe do pracy" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold"/>
+
+		</StackPanel>
+	</ScrollViewer>
 </Window>
